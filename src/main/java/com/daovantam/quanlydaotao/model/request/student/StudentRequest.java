@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
@@ -16,11 +15,11 @@ public class StudentRequest {
     private String email;
     private String phone;
     private String address;
-    private LocalDate dateOfBirth;
+    private int gender;
+    private String dateOfBirth;
     private String time;
+    private String photos;
     private long branchId;
-    private long genderId;
     private long roleId;
     private long roomId;
-    private List<Long> subjectIds;
 }

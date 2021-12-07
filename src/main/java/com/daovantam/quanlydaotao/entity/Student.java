@@ -1,7 +1,11 @@
 package com.daovantam.quanlydaotao.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -11,6 +15,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@ToString
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +33,16 @@ public class Student {
     @Column
     private String address;
     @Column
+    private int gender;
+    @Column
+    private String photos;
+
+    @Column
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
     @Column
     private String time;
-
-    @ManyToOne
-    @JoinColumn(name = "gender_id")
-    private Gender gender;
 
     @OneToMany(mappedBy = "student")
     private Set<Subject> subjects = new HashSet<>();

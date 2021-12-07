@@ -17,6 +17,9 @@ public class TeacherServiceImpl extends AbstractServiceImpl<Teacher, Long> imple
     @Autowired
     private TeacherMapper teacherMapper;
 
+    @Autowired
+    private TeacherRepository teacherRepository;
+
     public TeacherServiceImpl(TeacherRepository teacherRepository){
         super(teacherRepository);
     }
@@ -28,4 +31,22 @@ public class TeacherServiceImpl extends AbstractServiceImpl<Teacher, Long> imple
 
         return list;
     }
+
+    @Override
+    public List<TeacherResponse> findAllTeacher() {
+        List<Teacher> teachers = teacherRepository.findAllTeacher();
+        List<TeacherResponse> teacherResponses = teachers.stream().map(teacherMapper::mapToResponse).collect(Collectors.toList());
+
+        return teacherResponses;
+    }
+
+    @Override
+    public List<TeacherResponse> findAllTeacherByBranchId(long id) {
+        List<Teacher> teachers = teacherRepository.findAllByBranchId(id);
+        List<TeacherResponse> teacherResponses = teachers.stream().map(teacherMapper::mapToResponse).collect(Collectors.toList());
+
+        return teacherResponses;
+    }
+
+
 }

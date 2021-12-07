@@ -1,5 +1,6 @@
 package com.daovantam.quanlydaotao.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,11 +29,10 @@ public class Teacher {
     @Column
     private String address;
     @Column
+    private int gender;
+    @Column
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
-
-    @ManyToOne
-    @JoinColumn(name = "gender_id")
-    private Gender gender;
 
     @OneToMany(mappedBy = "teacher")
     private Set<Room> rooms = new HashSet<>();

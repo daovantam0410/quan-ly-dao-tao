@@ -24,4 +24,7 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     private List<Teacher> teachers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "role")
+    private List<User> users = new ArrayList<>();
 }

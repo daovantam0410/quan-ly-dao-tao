@@ -8,19 +8,20 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class StudentResponse {
-    private Long id;
+    private long id;
     private String code;
     private String fullName;
+    private String password;
     private String email;
     private String phone;
     private String address;
-    private LocalDate dateOfBirth;
+    private int gender;
+    private String dateOfBirth;
     private String time;
     private String branchName;
-    private String genderName;
     private String roomName;
-//    private long branchId;
-//    private long genderId;
-//    private long roleId;
-//    private long roomId;
+    private String photos;
+    private long branchId;
+    private long roomId;
+    private long roleId;
 }

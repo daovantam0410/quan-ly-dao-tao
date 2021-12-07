@@ -7,6 +7,9 @@ import com.daovantam.quanlydaotao.service.BaseService;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +33,13 @@ public abstract class AbstractServiceImpl<T, ID> implements BaseService<T, ID> {
         return PageResponse.of(page.getTotalElements(), data);
     }
 
+    public <RP> List<RP> findAll(Function<T, RP> transform){
+        List<T> list = baseRepository.findAll();
+        List<RP> data = list.stream().map(transform::apply).collect(Collectors.toList());
+
+        return data;
+    }
+
     @Override
     public <RP> RP findById(ID id, Function<T, RP> transform){
         Optional<T> t = baseRepository.findById(id);
@@ -38,4 +48,42 @@ public abstract class AbstractServiceImpl<T, ID> implements BaseService<T, ID> {
         return transform.apply(t.get());
     }
 
+    @Override
+    public <RQ> void save(RQ req, Function<RQ, T> transform){
+        T t = transform.apply(req);
+        baseRepository.save(t);
+    }
+
+    /*public <RQ> void save(RQ req, Function<RQ, T> transform, MultipartFile multipartFile){
+        if (!multipartFile.isEmpty()){
+            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+
+        }
+        T t = transform.apply(req);
+        baseRepository.save(t);
+    }*/
+
+    @Override
+    public void delete(ID id){
+        baseRepository.deleteById(id);
+    }
+
+    public T findOne(Specification<T> filter){
+        Optional<T> t = baseRepository.findOne(filter);
+        t.orElseThrow(() -> new ObjectNotFoundException("Not found with condition"));
+
+        return t.get();
+    }
+
+    public <RP> RP findOne(Specification<T> filter, Function<T, RP> transform){
+        Optional<T> t = baseRepository.findById(filter);
+        t.orElseThrow(() -> new ObjectNotFoundException("Not found with condition"));
+
+        return transform.apply(t.get());
+    }
+
+    public <RP> List<RP> filter(Specification<T> filter, Function<T, RP> transform) {
+        List<T> list = baseRepository.findAll(filter);
+        return list.stream().map(transform::apply).collect(Collectors.toList());
+    }
 }

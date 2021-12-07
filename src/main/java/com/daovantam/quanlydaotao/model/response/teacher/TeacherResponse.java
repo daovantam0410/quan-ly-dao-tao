@@ -15,8 +15,9 @@ public class TeacherResponse {
     private String email;
     private String phone;
     private String address;
-    private LocalDate dateOfBirth;
-    private long genderId;
+    private int gender;
+    private String dateOfBirth;
+    private String branchName;
     private long branchId;
     private long roleId;
 }

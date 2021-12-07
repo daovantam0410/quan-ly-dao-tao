@@ -9,4 +9,8 @@ import java.util.List;
 @Service
 public interface TeacherService extends BaseService<Teacher, Long> {
     List<TeacherResponse> findAll();
+
+    List<TeacherResponse> findAllTeacher();
+
+    List<TeacherResponse> findAllTeacherByBranchId(long id);
 }
